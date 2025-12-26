@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 echo "=== Ultimate All-in-One Cockpit Installer ==="
