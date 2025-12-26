@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # Benar ASCII Art Banne
