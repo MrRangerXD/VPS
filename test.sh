@@ -106,7 +106,7 @@ while true; do
 
     case $choice in
         1) install_theme "Euphoria" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/euphoriatheme.blueprint" "euphoriatheme.blueprint" ;;
-        2) install_theme "Nebula" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/nebula.blueprint" "nebula.blueprint" ;;
+        2) run_remote_script "https://raw.githubusercontent.com/MrRangerXD/VPS/refs/heads/main/cd/th2.sh" ;;
         3) install_theme "Nook" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/nooktheme.blueprint" "nooktheme.blueprint" ;;
         4) install_theme "Arix" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/arix-v1.3.1.zip" "arix.zip" ;;
         5) install_theme "Admin L/D" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/admin_themelightdark_2.9.zip" "admin.zip" ;;
