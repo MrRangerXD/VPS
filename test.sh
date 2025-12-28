@@ -10,54 +10,55 @@ NC='\033[0m'
 
 TARGET_DIR="/var/www/pterodactyl"
 
-# --- UI LOGIC ---
-print_header() {
-    echo -e "\n${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${CYAN} $1 ${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
-}
-
 # --- THE FIX ENGINE ---
 install_theme() {
     local name=$1
     local url=$2
     local filename=$3
 
-    print_header "FIXING & INSTALLING: $name"
-    
-    cd "$TARGET_DIR" || { echo -e "${RED}Pterodactyl folder not found!${NC}"; return; }
+    clear
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${CYAN} STARTING INSTALLATION: $name ${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 
-    # CLEAN UP OLD BROKEN FILES
-    echo -e "${YELLOW}Cleaning old session files...${NC}"
-    rm -rf "$filename"
-    rm -rf "${filename%.blueprint}"
-    rm -rf "/tmp/$(basename $url)"
+    cd "$TARGET_DIR" || { echo -e "${RED}Error: Pterodactyl folder not found!${NC}"; return; }
 
-    # DOWNLOAD WITH REDIRECT SUPPORT
-    echo -e "${YELLOW}Downloading original $name files...${NC}"
+    # 1. CLEAN UP PREVIOUS FAILURES
+    rm -f "$filename"
+    rm -f "${name,,}.zip"
+    rm -f "${name,,}.blueprint"
+
+    # 2. DOWNLOAD
+    echo -e "${YELLOW}Downloading $name...${NC}"
     curl -fSL -o "$filename" "$url"
     
-    # CHECK IF FILE IS VALID
     if [ ! -s "$filename" ]; then
-        echo -e "${RED}ERROR: Download failed. The link might be down.${NC}"
-        read -p "Press Enter to return..."
+        echo -e "${RED}Download failed!${NC}"
+        read -p "Press Enter..."
         return
     fi
 
-    # INSTALLATION
+    # 3. FIX THE ZIP ERROR (The renaming trick)
+    # Blueprint often looks for [name].zip even if the file is a .blueprint
     if [[ "$filename" == *.blueprint ]]; then
-        echo -e "${CYAN}Starting Blueprint Framework Install...${NC}"
-        # This pipes 'y' automatically to avoid getting stuck
-        yes y | blueprint -i "$filename"
+        cp "$filename" "${filename%.blueprint}.zip"
+    fi
+
+    # 4. EXECUTE INSTALLATION
+    if [[ "$filename" == *.blueprint ]]; then
+        echo -e "${GREEN}Running Blueprint Installer...${NC}"
+        # We pass the name without extension so Blueprint finds its own zip
+        yes y | blueprint -i "${filename%.blueprint}"
     else
-        echo -e "${CYAN}Extracting ZIP Theme...${NC}"
+        echo -e "${GREEN}Extracting ZIP Theme...${NC}"
         unzip -o "$filename" -d "$TARGET_DIR"
-        echo -e "${YELLOW}Rebuilding Panel Cache...${NC}"
         php artisan view:clear && php artisan cache:clear
     fi
 
+    # 5. CLEAN UP AFTER INSTALL
+    rm -f "${filename%.blueprint}.zip"
+
     echo -e "${GREEN}✅ $name Installation Finished!${NC}"
-    echo -e "${YELLOW}Note: If you don't see changes, press CTRL+F5 in your browser.${NC}"
     read -p "Press Enter to return to menu..."
 }
 
@@ -73,16 +74,16 @@ while true; do
     echo "       / /_|  __/ | | \__ \  __/ |  | |  __/ (__| | | |    "            
     echo "      /_____\___|_| |_|___/\___|_|  |_|\___|\___|_| |_|    "
     echo -e "${NC}"
-    echo -e "${CYAN}           ZENSEITECH THEME MANAGER (FIXED)${NC}"
+    echo -e "${CYAN}             THEMES MADE BY ZENSEITECH${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e ""
     echo -e "  [1] Euphoria (Blueprint)  [6] Unix Theme (ZIP)"
     echo -e "  [2] Nebula (FIXED)        [7] Stellar Theme (ZIP)"
     echo -e "  [3] Nook Theme            [8] REvivatyl (ZIP)"
     echo -e "  [4] Arix (ZIP)            [9] Futuristic (ZIP)"
-    echo -e "  [5] Admin L/D (ZIP)       [0] Exit"
+    echo -e "  [5] Admin L/D (ZIP)       [0] Exit Manager"
     echo -e ""
-    echo -n "  Select theme to install: "
+    echo -n "  Select theme: "
     read choice
 
     case $choice in
@@ -96,6 +97,5 @@ while true; do
         8) install_theme "REvivatyl" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/REvivatyl-2.1.1.zip" "revivatyl.zip" ;;
         9) install_theme "Futuristic" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/Futuristic%20Theme.zip" "futuristic.zip" ;;
         0) exit 0 ;;
-        *) echo -e "${RED}Invalid Selection!${NC}"; sleep 1 ;;
     esac
 done
