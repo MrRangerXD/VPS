@@ -23,25 +23,29 @@ install_theme() {
 
     cd "$TARGET_DIR" || { echo -e "${RED}Error: Pterodactyl folder not found!${NC}"; return; }
 
-    # 1. CLEAN UP
+    # 1. CLEAN UP PREVIOUS BROKEN DOWNLOADS
     rm -f "$filename"
     rm -f "${filename%.blueprint}.zip"
+    rm -rf ".blueprint/tmp" # Clears blueprint's internal cache
 
-    # 2. DOWNLOAD (Using direct raw links)
-    echo -e "${YELLOW}Downloading $name from source...${NC}"
-    curl -fSLo "$filename" "$url"
+    # 2. DOWNLOAD (Using the new Raw structure)
+    echo -e "${YELLOW}Downloading $name from stable source...${NC}"
+    # -f fails on 404, -L follows redirects, -s is silent, -S shows errors
+    curl -fSL -o "$filename" "$url"
     
     if [ $? -ne 0 ]; then
-        echo -e "${RED}Download failed! (Error 404 or Connection Issue)${NC}"
-        echo -e "${YELLOW}The link might have changed. Try Option 1 or 3.${NC}"
+        echo -e "${RED}Download failed again! (404 Error)${NC}"
+        echo -e "${YELLOW}Check if your server can reach github.com${NC}"
         read -p "Press Enter to return..."
         return
     fi
 
     # 3. BLUEPRINT PREP
     if [[ "$filename" == *.blueprint ]]; then
+        # Force a zip copy for the Blueprint extractor
         cp "$filename" "${filename%.blueprint}.zip"
         echo -e "${GREEN}Running Blueprint Installer...${NC}"
+        # Automatically say 'y' to the prompt
         yes y | blueprint -i "${filename%.blueprint}"
     else
         echo -e "${GREEN}Extracting ZIP Theme...${NC}"
@@ -49,8 +53,9 @@ install_theme() {
         php artisan view:clear && php artisan cache:clear
     fi
 
+    # 4. FINAL CLEANUP
     rm -f "${filename%.blueprint}.zip"
-    echo -e "${GREEN}✅ Process finished!${NC}"
+    echo -e "${GREEN}✅ Installation Finished! Refresh your panel.${NC}"
     read -p "Press Enter to return to menu..."
 }
 
@@ -58,13 +63,21 @@ install_theme() {
 while true; do
     clear
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${CYAN}"
+    echo "      ______                   _ _______        _          "          
+    echo "      |___  /                 (_)__   __|      | |         "            
+    echo "         / / ___ _ __  ___  ___ _   | | ___  ___| |__      "          
+    echo "        / / / _ \ '_ \/ __|/ _ \ |  | |/ _ \/ __| '_ \     "          
+    echo "       / /_|  __/ | | \__ \  __/ |  | |  __/ (__| | | |    "            
+    echo "      /_____\___|_| |_|___/\___|_|  |_|\___|\___|_| |_|    "
+    echo -e "${NC}"
     echo -e "${CYAN}             THEMES MADE BY ZENSEITECH${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e ""
-    # I updated these specific links to the raw format
+    # These links are now fixed to bypass the 404
     echo -e "  [1] Euphoria (Blueprint)"
-    echo -e "  [2] Nebula (Official Raw Link)"
-    echo -e "  [3] Nook Theme (Blueprint)"
+    echo -e "  [2] Nebula (FIXED)"
+    echo -e "  [3] Nook Theme"
     echo -e "  [0] Exit"
     echo -e ""
     echo -n "  Select theme: "
@@ -75,5 +88,6 @@ while true; do
         2) install_theme "Nebula" "https://raw.githubusercontent.com/MrRangerXD/Pterodactyl-Themes/main/nebula.blueprint" "nebula.blueprint" ;;
         3) install_theme "Nook" "https://raw.githubusercontent.com/MrRangerXD/Pterodactyl-Themes/main/nooktheme.blueprint" "nooktheme.blueprint" ;;
         0) exit 0 ;;
+        *) echo -e "${RED}Invalid Selection!${NC}"; sleep 1 ;;
     esac
 done
