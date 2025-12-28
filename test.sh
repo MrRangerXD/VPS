@@ -23,31 +23,25 @@ install_theme() {
 
     cd "$TARGET_DIR" || { echo -e "${RED}Error: Pterodactyl folder not found!${NC}"; return; }
 
-    # 1. CLEAN UP PREVIOUS FAILURES
+    # 1. CLEAN UP
     rm -f "$filename"
-    rm -f "${name,,}.zip"
-    rm -f "${name,,}.blueprint"
+    rm -f "${filename%.blueprint}.zip"
 
-    # 2. DOWNLOAD
-    echo -e "${YELLOW}Downloading $name...${NC}"
-    curl -fSL -o "$filename" "$url"
+    # 2. DOWNLOAD (Using direct raw links)
+    echo -e "${YELLOW}Downloading $name from source...${NC}"
+    curl -fSLo "$filename" "$url"
     
-    if [ ! -s "$filename" ]; then
-        echo -e "${RED}Download failed!${NC}"
-        read -p "Press Enter..."
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Download failed! (Error 404 or Connection Issue)${NC}"
+        echo -e "${YELLOW}The link might have changed. Try Option 1 or 3.${NC}"
+        read -p "Press Enter to return..."
         return
     fi
 
-    # 3. FIX THE ZIP ERROR (The renaming trick)
-    # Blueprint often looks for [name].zip even if the file is a .blueprint
+    # 3. BLUEPRINT PREP
     if [[ "$filename" == *.blueprint ]]; then
         cp "$filename" "${filename%.blueprint}.zip"
-    fi
-
-    # 4. EXECUTE INSTALLATION
-    if [[ "$filename" == *.blueprint ]]; then
         echo -e "${GREEN}Running Blueprint Installer...${NC}"
-        # We pass the name without extension so Blueprint finds its own zip
         yes y | blueprint -i "${filename%.blueprint}"
     else
         echo -e "${GREEN}Extracting ZIP Theme...${NC}"
@@ -55,10 +49,8 @@ install_theme() {
         php artisan view:clear && php artisan cache:clear
     fi
 
-    # 5. CLEAN UP AFTER INSTALL
     rm -f "${filename%.blueprint}.zip"
-
-    echo -e "${GREEN}✅ $name Installation Finished!${NC}"
+    echo -e "${GREEN}✅ Process finished!${NC}"
     read -p "Press Enter to return to menu..."
 }
 
@@ -66,36 +58,22 @@ install_theme() {
 while true; do
     clear
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${CYAN}"
-    echo "      ______                   _ _______        _          "          
-    echo "      |___  /                 (_)__   __|      | |         "            
-    echo "         / / ___ _ __  ___  ___ _   | | ___  ___| |__      "          
-    echo "        / / / _ \ '_ \/ __|/ _ \ |  | |/ _ \/ __| '_ \     "          
-    echo "       / /_|  __/ | | \__ \  __/ |  | |  __/ (__| | | |    "            
-    echo "      /_____\___|_| |_|___/\___|_|  |_|\___|\___|_| |_|    "
-    echo -e "${NC}"
     echo -e "${CYAN}             THEMES MADE BY ZENSEITECH${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e ""
-    echo -e "  [1] Euphoria (Blueprint)  [6] Unix Theme (ZIP)"
-    echo -e "  [2] Nebula (FIXED)        [7] Stellar Theme (ZIP)"
-    echo -e "  [3] Nook Theme            [8] REvivatyl (ZIP)"
-    echo -e "  [4] Arix (ZIP)            [9] Futuristic (ZIP)"
-    echo -e "  [5] Admin L/D (ZIP)       [0] Exit Manager"
+    # I updated these specific links to the raw format
+    echo -e "  [1] Euphoria (Blueprint)"
+    echo -e "  [2] Nebula (Official Raw Link)"
+    echo -e "  [3] Nook Theme (Blueprint)"
+    echo -e "  [0] Exit"
     echo -e ""
     echo -n "  Select theme: "
     read choice
 
     case $choice in
-        1) install_theme "Euphoria" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/euphoriatheme.blueprint" "euphoriatheme.blueprint" ;;
-        2) install_theme "Nebula" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/nebula.blueprint" "nebula.blueprint" ;;
-        3) install_theme "Nook" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/nooktheme.blueprint" "nooktheme.blueprint" ;;
-        4) install_theme "Arix" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/arix-v1.3.1.zip" "arix.zip" ;;
-        5) install_theme "Admin L/D" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/admin_themelightdark_2.9.zip" "admin.zip" ;;
-        6) install_theme "Unix" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/UnixTheme-v2.71.zip" "unix.zip" ;;
-        7) install_theme "Stellar" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/Stellar_v3.4.zip" "stellar.zip" ;;
-        8) install_theme "REvivatyl" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/REvivatyl-2.1.1.zip" "revivatyl.zip" ;;
-        9) install_theme "Futuristic" "https://github.com/MrRangerXD/Pterodactyl-Themes/raw/refs/heads/main/Futuristic%20Theme.zip" "futuristic.zip" ;;
+        1) install_theme "Euphoria" "https://raw.githubusercontent.com/MrRangerXD/Pterodactyl-Themes/main/euphoriatheme.blueprint" "euphoriatheme.blueprint" ;;
+        2) install_theme "Nebula" "https://raw.githubusercontent.com/MrRangerXD/Pterodactyl-Themes/main/nebula.blueprint" "nebula.blueprint" ;;
+        3) install_theme "Nook" "https://raw.githubusercontent.com/MrRangerXD/Pterodactyl-Themes/main/nooktheme.blueprint" "nooktheme.blueprint" ;;
         0) exit 0 ;;
     esac
 done
