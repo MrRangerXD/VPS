@@ -12,9 +12,9 @@ NC='\033[0m' # No Color
 
 # Function to print section headers
 print_header() {
-    echo -e "\n${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "\n${BLUE}${BOLD}=================================================${NC}"
     echo -e "${YELLOW} $1 ${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
+    echo -e "${BLUE}${BOLD}=================================================${NC}\n"
 }
 
 # Function to print status messages
@@ -66,7 +66,7 @@ welcome_animation() {
     clear
     # We use unquoted EOF so that variables like ${BLUE} are expanded.
     # We use echo -e to ensure the escape codes are turned into real colors.
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}${BOLD}=================================================${NC}"
     echo -e "${PURPLE}"
 cat << EOF
   ______                   _ _______        _                  
@@ -78,7 +78,7 @@ cat << EOF
 EOF
     echo -e "${NC}"
     echo -e "${CYAN}               Blueprint Installer${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}${BOLD}=================================================${NC}"
     sleep 1
 }
 
@@ -184,10 +184,10 @@ update_zensei() {
 # Function to display the main menu
 show_menu() {
     clear
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}${BOLD}=================================================${NC}"
     echo -e "${YELLOW}           🔧 BLUEPRINT INSTALLER               ${NC}"
     echo -e "${YELLOW}              Zensei Hosting                   ${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}${BOLD}=================================================${NC}"
     echo -e ""
     echo -e "${WHITE}╔═══════════════════════════════════════════════╗${NC}"
     echo -e "${WHITE}║                📋 MAIN MENU                   ║${NC}"
@@ -215,9 +215,9 @@ while true; do
         3) update_zensei ;;
         0) 
             echo -e "${GREEN}Exiting Blueprint Installer...${NC}"
-            echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+            echo -e "${BLUE}${BOLD}=================================================${NC}"
             echo -e "${YELLOW}           Thank you for using our tools!       ${NC}"
-            echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+            echo -e "${BLUE}${BOLD}=================================================${NC}"
             sleep 2
             exit 0 
             ;;
