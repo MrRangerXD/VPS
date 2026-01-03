@@ -64,19 +64,21 @@ animate_progress() {
 
 welcome_animation() {
     clear
-    cat << EOF
-${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}
-${CYAN}
+    # We use unquoted EOF so that variables like ${BLUE} are expanded.
+    # We use echo -e to ensure the escape codes are turned into real colors.
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${CYAN}"
+cat << EOF
   ______                   _ _______        _                  
  |___  /                  (_)__   __|      | |                 
     / / ___ _ __  ___  ___ _   | | ___  ___| |__               
    / / / _ \\\\ '_ \\\\/ __|/ _ \\\\ |  | |/ _ \\\\/ __| '_ \\\\              
   / /_|  __/ | | \\\\__ \\\\  __/ |  | |  __/ (__| | | |             
  /_____\\\\___|_| |_|___/\\\\___|_|  |_|\\\\___|\\\\___|_| |_|
-
-               Blueprint Installer
-${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}
 EOF
+    echo -e "${NC}"
+    echo -e "${CYAN}               Blueprint Installer${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     sleep 1
 }
 
