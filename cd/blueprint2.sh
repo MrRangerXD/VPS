@@ -13,7 +13,7 @@ NC='\033[0m' # No Color
 # Function to print section headers
 print_header() {
     echo -e "\n${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${CYAN} $1 ${NC}"
+    echo -e "${YELLOW} $1 ${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
 }
 
@@ -67,7 +67,7 @@ welcome_animation() {
     # We use unquoted EOF so that variables like ${BLUE} are expanded.
     # We use echo -e to ensure the escape codes are turned into real colors.
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${CYAN}"
+    echo -e "${PURPLE}"
 cat << EOF
   ______                   _ _______        _                  
  |___  /                  (_)__   __|      | |                 
@@ -185,8 +185,8 @@ update_zensei() {
 show_menu() {
     clear
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${CYAN}           🔧 BLUEPRINT INSTALLER               ${NC}"
-    echo -e "${CYAN}              Zensei Hosting                   ${NC}"
+    echo -e "${YELLOW}           🔧 BLUEPRINT INSTALLER               ${NC}"
+    echo -e "${YELLOW}              Zensei Hosting                   ${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e ""
     echo -e "${WHITE}╔═══════════════════════════════════════════════╗${NC}"
@@ -216,7 +216,7 @@ while true; do
         0) 
             echo -e "${GREEN}Exiting Blueprint Installer...${NC}"
             echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-            echo -e "${CYAN}           Thank you for using our tools!       ${NC}"
+            echo -e "${YELLOW}           Thank you for using our tools!       ${NC}"
             echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
             sleep 2
             exit 0 
