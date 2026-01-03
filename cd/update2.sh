@@ -13,7 +13,7 @@ NC='\033[0m' # No Color
 # Function to print section headers
 print_header() {
     echo -e "\n${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${CYAN} $1 ${NC}"
+    echo -e "${YELLOW} $1 ${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
 }
 
@@ -65,8 +65,8 @@ animate_progress() {
 # Clear screen and show welcome message
 clear
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${CYAN}           🚀 PTERODACTYL PANEL UPDATER           ${NC}"
-echo -e "${CYAN}                 by Zensei-hosting               ${NC}"
+echo -e "${YELLOW}           🚀 PTERODACTYL PANEL UPDATER           ${NC}"
+echo -e "${YELLOW}                 by Zensei-hosting               ${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
 
 # Check if running as root
@@ -153,7 +153,7 @@ print_success "Panel brought back online"
 # Update complete
 clear
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${CYAN}           🎉 UPDATE COMPLETED SUCCESSFULLY!      ${NC}"
+echo -e "${YELLOW}           🎉 UPDATE COMPLETED SUCCESSFULLY!      ${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo -e ""
 echo -e "${GREEN}✨ Pterodactyl Panel has been successfully updated!${NC}"
@@ -174,7 +174,7 @@ echo -e "  ${CYAN}•${NC} Verify all functionality is working correctly"
 echo -e "  ${CYAN}•${NC} Check server status in the dashboard"
 echo -e ""
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${CYAN}           Thank you for using Zensei-hosting!   ${NC}"
+echo -e "${YELLOW}           Thank you for using Zensei-hosting!   ${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 
 # Wait for user to see completion message
