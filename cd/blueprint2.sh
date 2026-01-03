@@ -12,9 +12,9 @@ NC='\033[0m' # No Color
 
 # Function to print section headers
 print_header() {
-    echo -e "\n${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${CYAN} $1 ${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
+    echo -e "\n${BLUE}${BOLD}=================================================${NC}"
+    echo -e "${YELLOW} $1 ${NC}"
+    echo -e "${BLUE}${BOLD}=================================================${NC}\n"
 }
 
 # Function to print status messages
@@ -65,17 +65,17 @@ animate_progress() {
 # Welcome animation
 welcome_animation() {
     clear
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${CYAN}"
-    echo "   ███╗   ██╗ ██████╗ ██████╗ ██╗████████╗ █████╗ "
-    echo "   ████╗  ██║██╔═══██╗██╔══██╗██║╚══██╔══╝██╔══██╗"
-    echo "   ██╔██╗ ██║██║   ██║██████╔╝██║   ██║   ███████║"
-    echo "   ██║╚██╗██║██║   ██║██╔══██╗██║   ██║   ██╔══██║"
-    echo "   ██║ ╚████║╚██████╔╝██║  ██║██║   ██║   ██║  ██║"
-    echo "   ╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚═╝  ╚═╝"
+    echo -e "${BLUE}${BOLD}=================================================${NC}"
+    echo -e "${YELLOW}"
+echo "  ██████╗ ███████╗███╗   ██╗███████╗███████╗██╗ "
+echo "  ╚══███╔╝██╔════╝████╗  ██║██╔════╝██╔════╝██║ "
+echo "    ███╔╝ █████╗  ██╔██╗ ██║███████╗█████╗  ██║ "
+echo "   ███╔╝  ██╔══╝  ██║╚██╗██║╚════██║██╔══╝  ██║ "
+echo "  ███████╗███████╗██║ ╚████║███████║███████╗██║ "
+echo "  ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝ "  
     echo -e "${NC}"
     echo -e "${CYAN}              Blueprint Installer${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}${BOLD}=================================================${NC}"
     sleep 2
 }
 
@@ -162,7 +162,7 @@ install_nobita() {
 
 # Function: Reinstall (Rerun Only)
 reinstall_nobita() {
-    print_header "REINSTALLING NOBITA HOSTING"
+    print_header "REINSTALLING ZENSEI HOSTING"
     print_status "Starting reinstallation"
     blueprint -rerun-install > /dev/null 2>&1 &
     animate_progress $! "Reinstalling"
@@ -171,7 +171,7 @@ reinstall_nobita() {
 
 # Function: Update Nobita Hosting
 update_nobita() {
-    print_header "UPDATING NOBITA HOSTING"
+    print_header "UPDATING ZENSEI HOSTING"
     print_status "Starting update"
     blueprint -upgrade > /dev/null 2>&1 &
     animate_progress $! "Updating"
@@ -181,21 +181,21 @@ update_nobita() {
 # Function to display the main menu
 show_menu() {
     clear
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${CYAN}           🔧 BLUEPRINT INSTALLER               ${NC}"
-    echo -e "${CYAN}              Nobita Hosting                   ${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}${BOLD}=================================================${NC}"
+    echo -e "${YELLOW}           🔧 BLUEPRINT INSTALLER               ${NC}"
+    echo -e "${YELLOW}              Zensei Hosting                   ${NC}"
+    echo -e "${BLUE}${BOLD}=================================================${NC}"
     echo -e ""
     echo -e "${WHITE}╔═══════════════════════════════════════════════╗${NC}"
     echo -e "${WHITE}║                📋 MAIN MENU                   ║${NC}"
     echo -e "${WHITE}╠═══════════════════════════════════════════════╣${NC}"
-    echo -e "${WHITE}║   ${GREEN}1)${NC} ${CYAN}Fresh Install${NC}                         ${WHITE}║${NC}"
-    echo -e "${WHITE}║   ${GREEN}2)${NC} ${CYAN}Reinstall (Rerun Only)${NC}                ${WHITE}║${NC}"
-    echo -e "${WHITE}║   ${GREEN}3)${NC} ${CYAN}Update Nobita Hosting${NC}                 ${WHITE}║${NC}"
-    echo -e "${WHITE}║   ${GREEN}0)${NC} ${RED}Exit${NC}                               ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}1)${NC} ${CYAN}Fresh Install${NC}                           ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}2)${NC} ${CYAN}Reinstall (Rerun Only)${NC}                  ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}3)${NC} ${CYAN}Update Zensei Hosting${NC}                   ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}0)${NC} ${RED}Exit${NC}                                    ${WHITE}║${NC}"
     echo -e "${WHITE}╚═══════════════════════════════════════════════╝${NC}"
     echo -e ""
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}${BOLD}=================================================${NC}"
     echo -e "${YELLOW}📝 Select an option [0-3]: ${NC}"
 }
 
@@ -212,9 +212,9 @@ while true; do
         3) update_nobita ;;
         0) 
             echo -e "${GREEN}Exiting Blueprint Installer...${NC}"
-            echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-            echo -e "${CYAN}           Thank you for using our tools!       ${NC}"
-            echo -e "${BLUE}${NC}"
+            echo -e "${BLUE}${BOLD}=================================================${NC}"
+            echo -e "${YELLOW}           Thank you for using our tools!       ${NC}"
+            echo -e "${BLUE}${BOLD}=================================================${NC}"
             sleep 2
             exit 0 
             ;;
