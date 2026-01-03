@@ -12,9 +12,9 @@ NC='\033[0m' # No Color
 
 # Function to print section headers
 print_header() {
-    echo -e "\n${BLUE}${BOLD}=================================================${NC}"
-    echo -e "${YELLOW} $1 ${NC}"
-    echo -e "${BLUE}${BOLD}=================================================${NC}\n"
+    echo -e "\n${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${CYAN} $1 ${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
 }
 
 # Function to print status messages
@@ -62,28 +62,25 @@ animate_progress() {
     printf "    \b\b\b\b"
 }
 
+# Welcome animation
 welcome_animation() {
     clear
-    # We use unquoted EOF so that variables like ${BLUE} are expanded.
-    # We use echo -e to ensure the escape codes are turned into real colors.
-    echo -e "${BLUE}${BOLD}=================================================${NC}"
-    echo -e "${PURPLE}"
-cat << EOF
-  ______                   _ _______        _                  
- |___  /                  (_)__   __|      | |                 
-    / / ___ _ __  ___  ___ _   | | ___  ___| |__              
-   / / / _ \ '_ \/ __|/ _ \ |  | |/ _ \/ __| '_ \             
-  / /_|  __/ | | \__ \  __/ |  | |  __/ (__| | | |             
- /_____\___|_| |_|___/\___|_|  |_|\___|\___|_| |_|
-EOF
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${CYAN}"
+    echo "   ███╗   ██╗ ██████╗ ██████╗ ██╗████████╗ █████╗ "
+    echo "   ████╗  ██║██╔═══██╗██╔══██╗██║╚══██╔══╝██╔══██╗"
+    echo "   ██╔██╗ ██║██║   ██║██████╔╝██║   ██║   ███████║"
+    echo "   ██║╚██╗██║██║   ██║██╔══██╗██║   ██║   ██╔══██║"
+    echo "   ██║ ╚████║╚██████╔╝██║  ██║██║   ██║   ██║  ██║"
+    echo "   ╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚═╝  ╚═╝"
     echo -e "${NC}"
-    echo -e "${CYAN}               Blueprint Installer${NC}"
-    echo -e "${BLUE}${BOLD}=================================================${NC}"
-    sleep 1
+    echo -e "${CYAN}              Blueprint Installer${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    sleep 2
 }
 
 # Function: Install (Fresh Setup)
-install_zensei() {
+install_nobita() {
     print_header "FRESH INSTALLATION"
     
     if [ "$EUID" -ne 0 ]; then
@@ -91,7 +88,7 @@ install_zensei() {
         return 1
     fi
 
-    print_status "Starting Fresh Install for Zensei Hosting"
+    print_status "Starting Fresh Install for Nobita Hosting"
 
     # --- Step 1: Install Node.js 20.x ---
     print_header "INSTALLING NODE.JS 20.x"
@@ -115,7 +112,7 @@ install_zensei() {
     animate_progress $! "Installing Node.js"
     check_success "Node.js installed" "Failed to install Node.js"
 
-    # --- Step 2: Install Yarn, Dependencies & Zensei Hosting Release ---
+    # --- Step 2: Install Yarn, Dependencies & Nobita Hosting Release ---
     print_header "INSTALLING DEPENDENCIES"
     print_status "Installing Yarn"
     npm i -g yarn > /dev/null 2>&1 &
@@ -136,7 +133,7 @@ install_zensei() {
     check_success "Additional packages installed" "Failed to install additional packages"
 
     # --- Step 3: Download and Extract Release ---
-    print_header "DOWNLOADING ZENSEI HOSTING"
+    print_header "DOWNLOADING NOBITA HOSTING"
     print_status "Downloading latest release"
     wget "$(curl -s https://api.github.com/repos/BlueprintFramework/framework/releases/latest | \
     grep 'browser_download_url' | cut -d '"' -f 4)" -O release.zip > /dev/null 2>&1 &
@@ -148,7 +145,7 @@ install_zensei() {
     animate_progress $! "Extracting files"
     check_success "Files extracted" "Failed to extract files"
 
-    # --- Step 4: Run Zensei Hosting Installer ---
+    # --- Step 4: Run Nobita Hosting Installer ---
     print_header "RUNNING BLUEPRINT INSTALLER"
     if [ ! -f "blueprint.sh" ]; then
         print_error "blueprint.sh not found in release package"
@@ -164,17 +161,17 @@ install_zensei() {
 }
 
 # Function: Reinstall (Rerun Only)
-reinstall_zensei() {
-    print_header "REINSTALLING ZENSEI HOSTING"
+reinstall_nobita() {
+    print_header "REINSTALLING NOBITA HOSTING"
     print_status "Starting reinstallation"
     blueprint -rerun-install > /dev/null 2>&1 &
     animate_progress $! "Reinstalling"
     check_success "Reinstallation completed" "Reinstallation failed"
 }
 
-# Function: Update Zensei Hosting
-update_zensei() {
-    print_header "UPDATING ZENSEI HOSTING"
+# Function: Update Nobita Hosting
+update_nobita() {
+    print_header "UPDATING NOBITA HOSTING"
     print_status "Starting update"
     blueprint -upgrade > /dev/null 2>&1 &
     animate_progress $! "Updating"
@@ -184,21 +181,21 @@ update_zensei() {
 # Function to display the main menu
 show_menu() {
     clear
-    echo -e "${BLUE}${BOLD}=================================================${NC}"
-    echo -e "${YELLOW}           🔧 BLUEPRINT INSTALLER               ${NC}"
-    echo -e "${YELLOW}              Zensei Hosting                   ${NC}"
-    echo -e "${BLUE}${BOLD}=================================================${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${CYAN}           🔧 BLUEPRINT INSTALLER               ${NC}"
+    echo -e "${CYAN}              Nobita Hosting                   ${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e ""
     echo -e "${WHITE}╔═══════════════════════════════════════════════╗${NC}"
     echo -e "${WHITE}║                📋 MAIN MENU                   ║${NC}"
     echo -e "${WHITE}╠═══════════════════════════════════════════════╣${NC}"
-    echo -e "${WHITE}║   ${GREEN}1)${NC} ${CYAN}Fresh Install${NC}                            ${WHITE}║${NC}"
-    echo -e "${WHITE}║   ${GREEN}2)${NC} ${CYAN}Reinstall (Rerun Only)${NC}                   ${WHITE}║${NC}"
-    echo -e "${WHITE}║   ${GREEN}3)${NC} ${CYAN}Update Zensei Hosting${NC}                    ${WHITE}║${NC}"
-    echo -e "${WHITE}║   ${GREEN}0)${NC} ${RED}Exit${NC}                                     ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}1)${NC} ${CYAN}Fresh Install${NC}                         ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}2)${NC} ${CYAN}Reinstall (Rerun Only)${NC}                ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}3)${NC} ${CYAN}Update Nobita Hosting${NC}                 ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}0)${NC} ${RED}Exit${NC}                               ${WHITE}║${NC}"
     echo -e "${WHITE}╚═══════════════════════════════════════════════╝${NC}"
     echo -e ""
-    echo -e "${BLUE}${BOLD}=================================================${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${YELLOW}📝 Select an option [0-3]: ${NC}"
 }
 
@@ -210,14 +207,14 @@ while true; do
     read -r choice
     
     case $choice in
-        1) install_zensei ;;
-        2) reinstall_zensei ;;
-        3) update_zensei ;;
+        1) install_nobita ;;
+        2) reinstall_nobita ;;
+        3) update_nobita ;;
         0) 
             echo -e "${GREEN}Exiting Blueprint Installer...${NC}"
-            echo -e "${BLUE}${BOLD}=================================================${NC}"
-            echo -e "${YELLOW}           Thank you for using our tools!       ${NC}"
-            echo -e "${BLUE}${BOLD}=================================================${NC}"
+            echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+            echo -e "${CYAN}           Thank you for using our tools!       ${NC}"
+            echo -e "${BLUE}${NC}"
             sleep 2
             exit 0 
             ;;
