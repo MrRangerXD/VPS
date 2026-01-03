@@ -12,9 +12,9 @@ NC='\033[0m' # No Color
 
 # Function to print section headers
 print_header() {
-    echo -e "\n${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "\n${BLUE}${BOLD}=================================================${NC}"
     echo -e "${YELLOW} $1 ${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
+    echo -e "${BLUE}${BOLD}=================================================${NC}\n"
 }
 
 # Function to print status messages
@@ -65,7 +65,7 @@ check_success() {
 
 # Welcome message
 clear
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${BLUE}${BOLD}=================================================${NC}"
 echo -e "${PURPLE}"
 echo "       ______                   _ _______        _        "          
 echo "      |___  /                  (_)__   __|      | |      "           
@@ -75,7 +75,7 @@ echo "       / /_|  __/ | | \__ \  __/ |  | |  __/ (__| | | |  "
 echo "      /_____\___|_| |_|___/\___|_|  |_|\___|\___|_| |_|  "
 echo -e "${NC}"
 echo -e "${CYAN}           Nebula Blueprint Installer${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${BLUE}${BOLD}=================================================${NC}"
 sleep 2
 
 # Check if running as root
@@ -185,9 +185,9 @@ echo -e "  ${YELLOW}•${NC} Check your panel for new features"
 echo -e "  ${YELLOW}•${NC} Review the blueprint configuration"
 echo -e "  ${YELLOW}•${NC} Restart your panel if required"
 echo -e ""
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${BLUE}${BOLD}=================================================${NC}"
 echo -e "${YELLOW}           Thank you for using Zensei-hosting!   ${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${BLUE}${BOLD}=================================================${NC}"
 
 # Wait for user to see completion message
 echo -e ""
