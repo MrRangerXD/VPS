@@ -12,7 +12,7 @@ NC='\033[0m' # No Color
 # Function to print section headers
 print_header() {
     echo -e "\n${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${CYAN} $1 ${NC}"
+    echo -e "${YELLOW} $1 ${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
 }
 
@@ -43,8 +43,8 @@ check_success() {
 # Clear screen and show welcome message
 clear
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${CYAN}           PTERODACTYL WINGS SETUP               ${NC}"
-echo -e "${CYAN}              by Zensei-hosting                  ${NC}"
+echo -e "${YELLOW}           PTERODACTYL WINGS SETUP               ${NC}"
+echo -e "${YELLOW}              by Zensei-hosting                  ${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
 
 # Check if running as root
@@ -254,6 +254,6 @@ fi
 
 echo -e ""
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${CYAN}           Thank you for using Zensei-hosting!   ${NC}"
+echo -e "${YELLOW}           Thank you for using Zensei-hosting!   ${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo -e ""
