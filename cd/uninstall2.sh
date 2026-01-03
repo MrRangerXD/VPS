@@ -12,9 +12,9 @@ NC='\033[0m' # No Color
 
 # Function to print section headers
 print_header() {
-    echo -e "\n${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${CYAN} $1 ${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
+    echo -e "\n${BLUE}${BOLD}=================================================${NC}"
+    echo -e "${YELLOW} $1 ${NC}"
+    echo -e "${BLUE}${BOLD}=================================================${NC}\n"
 }
 
 # Function to print status messages
@@ -148,10 +148,10 @@ uninstall_both() {
 
 show_menu() {
     clear
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}${BOLD}=================================================${NC}"
     echo -e "${YELLOW}            🗑️ PTERODACTYL UNINSTALLER            ${NC}"
     echo -e "${YELLOW}                 by Zensei-hosting               ${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}${BOLD}=================================================${NC}"
     echo -e ""
     echo -e "${YELLOW}╔═══════════════════════════════════════════════╗${NC}"
     echo -e "${YELLOW}║                📋 MENU OPTIONS                ║${NC}"
