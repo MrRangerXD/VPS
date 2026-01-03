@@ -64,21 +64,20 @@ animate_progress() {
 
 welcome_animation() {
     clear
-    # Use EOF without quotes to allow ${BLUE} and ${CYAN} to work
     cat << EOF
 ${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}
 ${CYAN}
   ______                   _ _______        _                  
  |___  /                  (_)__   __|      | |                 
     / / ___ _ __  ___  ___ _   | | ___  ___| |__               
-   / / / _ \\ '_ \\/ __|/ _ \\ |  | |/ _ \\/ __| '_ \\              
-  / /_|  __/ | | \\__ \\  __/ |  | |  __/ (__| | | |             
- /_____\\___|_| |_|___/\\___|_|  |_|\\___|\\___|_| |_|
+   / / / _ \\\\ '_ \\\\/ __|/ _ \\\\ |  | |/ _ \\\\/ __| '_ \\\\              
+  / /_|  __/ | | \\\\__ \\\\  __/ |  | |  __/ (__| | | |             
+ /_____\\\\___|_| |_|___/\\\\___|_|  |_|\\\\___|\\\\___|_| |_|
 
                Blueprint Installer
 ${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}
 EOF
-    sleep 2
+    sleep 1
 }
 
 # Function: Install (Fresh Setup)
@@ -191,9 +190,9 @@ show_menu() {
     echo -e "${WHITE}╔═══════════════════════════════════════════════╗${NC}"
     echo -e "${WHITE}║                📋 MAIN MENU                   ║${NC}"
     echo -e "${WHITE}╠═══════════════════════════════════════════════╣${NC}"
-    echo -e "${WHITE}║   ${GREEN}1)${NC} ${CYAN}Fresh Install${NC}                           ${WHITE}║${NC}"
-    echo -e "${WHITE}║   ${GREEN}2)${NC} ${CYAN}Reinstall (Rerun Only)${NC}                  ${WHITE}║${NC}"
-    echo -e "${WHITE}║   ${GREEN}3)${NC} ${CYAN}Update Zensei Hosting${NC}                   ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}1)${NC} ${CYAN}Fresh Install${NC}                            ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}2)${NC} ${CYAN}Reinstall (Rerun Only)${NC}                   ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}3)${NC} ${CYAN}Update Zensei Hosting${NC}                    ${WHITE}║${NC}"
     echo -e "${WHITE}║   ${GREEN}0)${NC} ${RED}Exit${NC}                                     ${WHITE}║${NC}"
     echo -e "${WHITE}╚═══════════════════════════════════════════════╝${NC}"
     echo -e ""
