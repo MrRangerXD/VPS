@@ -62,7 +62,7 @@ animate_progress() {
     printf "    \b\b\b\b"
 }
 
-# Welcome animation (Corrected)
+# Welcome animation 
 welcome_animation() {
     clear
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
