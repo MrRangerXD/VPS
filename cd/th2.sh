@@ -13,7 +13,7 @@ NC='\033[0m' # No Color
 # Function to print section headers
 print_header() {
     echo -e "\n${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${CYAN} $1 ${NC}"
+    echo -e "${YELLOW} $1 ${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
 }
 
@@ -66,7 +66,7 @@ check_success() {
 # Welcome message
 clear
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${CYAN}"
+echo -e "${PURPLE}"
 echo "       ______                   _ _______        _        "          
 echo "      |___  /                  (_)__   __|      | |      "           
 echo "         / / ___ _ __  ___  ___ _   | | ___  ___| |__    "          
@@ -172,21 +172,21 @@ fi
 print_header "INSTALLATION COMPLETE"
 echo -e "${GREEN}🎉 Nebula Blueprint has been successfully installed!${NC}"
 echo -e ""
-echo -e "${YELLOW}📋 INSTALLATION SUMMARY:${NC}"
-echo -e "  ${CYAN}•${NC} ${GREEN}Repository cloned successfully${NC}"
-echo -e "  ${CYAN}•${NC} ${GREEN}nebula.blueprint downloaded${NC}"
-echo -e "  ${CYAN}•${NC} ${GREEN}Blueprint executed successfully${NC}"
+echo -e "${CYAN}📋 INSTALLATION SUMMARY:${NC}"
+echo -e "  ${YELLOW}•${NC} ${GREEN}Repository cloned successfully${NC}"
+echo -e "  ${YELLOW}•${NC} ${GREEN}nebula.blueprint downloaded${NC}"
+echo -e "  ${YELLOW}•${NC} ${GREEN}Blueprint executed successfully${NC}"
 echo -e ""
-echo -e "${YELLOW}📍 LOCATION:${NC}"
-echo -e "  ${CYAN}•${NC} ${GREEN}Blueprint file: ${TARGET_DIR}/nebula.blueprint${NC}"
+echo -e "${CYAN}📍 LOCATION:${NC}"
+echo -e "  ${YELLOW}•${NC} ${GREEN}Blueprint file: ${TARGET_DIR}/nebula.blueprint${NC}"
 echo -e ""
-echo -e "${YELLOW}🚀 NEXT STEPS:${NC}"
-echo -e "  ${CYAN}•${NC} Check your panel for new features"
-echo -e "  ${CYAN}•${NC} Review the blueprint configuration"
-echo -e "  ${CYAN}•${NC} Restart your panel if required"
+echo -e "${CYAN}🚀 NEXT STEPS:${NC}"
+echo -e "  ${YELLOW}•${NC} Check your panel for new features"
+echo -e "  ${YELLOW}•${NC} Review the blueprint configuration"
+echo -e "  ${YELLOW}•${NC} Restart your panel if required"
 echo -e ""
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${CYAN}           Thank you for using Zensei-hosting!   ${NC}"
+echo -e "${YELLOW}           Thank you for using Zensei-hosting!   ${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 
 # Wait for user to see completion message
