@@ -64,20 +64,21 @@ animate_progress() {
 
 welcome_animation() {
     clear
-    echo -e "\${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\${NC}"
-    echo -e "\${CYAN}"
-cat << 'EOF'
+    # Use EOF without quotes to allow ${BLUE} and ${CYAN} to work
+    cat << EOF
+${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}
+${CYAN}
   ______                   _ _______        _                  
  |___  /                  (_)__   __|      | |                 
     / / ___ _ __  ___  ___ _   | | ___  ___| |__               
    / / / _ \\ '_ \\/ __|/ _ \\ |  | |/ _ \\/ __| '_ \\              
   / /_|  __/ | | \\__ \\  __/ |  | |  __/ (__| | | |             
  /_____\\___|_| |_|___/\\___|_|  |_|\\___|\\___|_| |_|
+
+               Blueprint Installer
+${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}
 EOF
-    echo -e "\${NC}"
-    echo -e "\${CYAN}               Blueprint Installer\${NC}"
-    echo -e "\${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\${NC}"
-    sleep 1
+    sleep 2
 }
 
 # Function: Install (Fresh Setup)
