@@ -149,8 +149,8 @@ uninstall_both() {
 show_menu() {
     clear
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${CYAN}            🗑️ PTERODACTYL UNINSTALLER            ${NC}"
-    echo -e "${CYAN}                 by Zensei-hosting               ${NC}"
+    echo -e "${YELLOW}            🗑️ PTERODACTYL UNINSTALLER            ${NC}"
+    echo -e "${YELLOW}                 by Zensei-hosting               ${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e ""
     echo -e "${YELLOW}╔═══════════════════════════════════════════════╗${NC}"
