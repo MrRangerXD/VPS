@@ -80,7 +80,7 @@ echo "  ╚══════╝╚══════╝╚═╝  ╚═══�
 }
 
 # Function: Install (Fresh Setup)
-install_nobita() {
+install_zensei() {
     print_header "FRESH INSTALLATION"
     
     if [ "$EUID" -ne 0 ]; then
@@ -161,7 +161,7 @@ install_nobita() {
 }
 
 # Function: Reinstall (Rerun Only)
-reinstall_nobita() {
+reinstall_zensei() {
     print_header "REINSTALLING ZENSEI HOSTING"
     print_status "Starting reinstallation"
     blueprint -rerun-install > /dev/null 2>&1 &
@@ -170,7 +170,7 @@ reinstall_nobita() {
 }
 
 # Function: Update Nobita Hosting
-update_nobita() {
+update_zensei() {
     print_header "UPDATING ZENSEI HOSTING"
     print_status "Starting update"
     blueprint -upgrade > /dev/null 2>&1 &
@@ -207,9 +207,9 @@ while true; do
     read -r choice
     
     case $choice in
-        1) install_nobita ;;
-        2) reinstall_nobita ;;
-        3) update_nobita ;;
+        1) install_zensei ;;
+        2) reinstall_zensei ;;
+        3) update_zensei ;;
         0) 
             echo -e "${GREEN}Exiting Blueprint Installer...${NC}"
             echo -e "${BLUE}${BOLD}=================================================${NC}"
