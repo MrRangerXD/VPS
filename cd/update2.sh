@@ -12,9 +12,9 @@ NC='\033[0m' # No Color
 
 # Function to print section headers
 print_header() {
-    echo -e "\n${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "\n${BLUE}${BOLD}=================================================${NC}"
     echo -e "${YELLOW} $1 ${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
+    echo -e "${BLUE}${BOLD}=================================================${NC}\n"
 }
 
 # Function to print status messages
@@ -64,10 +64,10 @@ animate_progress() {
 
 # Clear screen and show welcome message
 clear
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${BLUE}${BOLD}=================================================${NC}"
 echo -e "${YELLOW}           🚀 PTERODACTYL PANEL UPDATER           ${NC}"
 echo -e "${YELLOW}                 by Zensei-hosting               ${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
+echo -e "${BLUE}${BOLD}=================================================${NC}\n"
 
 # Check if running as root
 if [ "$EUID" -ne 0 ]; then
@@ -152,9 +152,9 @@ print_success "Panel brought back online"
 
 # Update complete
 clear
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${BLUE}${BOLD}=================================================${NC}"
 echo -e "${YELLOW}           🎉 UPDATE COMPLETED SUCCESSFULLY!      ${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${BLUE}${BOLD}=================================================${NC}"
 echo -e ""
 echo -e "${GREEN}✨ Pterodactyl Panel has been successfully updated!${NC}"
 echo -e ""
@@ -173,9 +173,9 @@ echo -e "  ${CYAN}•${NC} Check your panel at ${GREEN}https://your-domain.com${
 echo -e "  ${CYAN}•${NC} Verify all functionality is working correctly"
 echo -e "  ${CYAN}•${NC} Check server status in the dashboard"
 echo -e ""
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${BLUE}${BOLD}=================================================${NC}"
 echo -e "${YELLOW}           Thank you for using Zensei-hosting!   ${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${BLUE}${BOLD}=================================================${NC}"
 
 # Wait for user to see completion message
 echo -e ""
