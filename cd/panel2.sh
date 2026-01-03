@@ -164,13 +164,13 @@ for i in {1..5}; do
 done
 echo -e "\n"
 
-echo -e "\e[1;33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m"
+echo -e "\e[1;33m===========================================\e[0m"
 echo -e "\e[1;36m  ✅ Installation Completed Successfully! \e[0m"
-echo -e "\e[1;33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m"
+echo -e "\e[1;33m===========================================\e[0m"
 echo -e "\e[1;32m  🌐 Your Panel URL: \e[1;37mhttps://${DOMAIN}\e[0m"
 echo -e "\e[1;32m  📂 Panel Directory: \e[1;37m/var/www/pterodactyl\e[0m"
 echo -e "\e[1;32m  🛠 Create Admin: \e[1;37mphp artisan p:user:make\e[0m"
 echo -e "\e[1;32m  🔑 DB User: \e[1;37m${DB_USER}\e[0m"
 echo -e "\e[1;32m  🔑 DB Password: \e[1;37m${DB_PASS}\e[0m"
-echo -e "\e[1;33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m"
+echo -e "\e[1;33m===========================================\e[0m"
 echo -e "\e[1;35m  🎉 Enjoy your Pterodactyl Panel! \e[0m"
