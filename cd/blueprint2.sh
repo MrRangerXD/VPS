@@ -198,7 +198,7 @@ show_menu() {
     echo -e "${WHITE}║   ${GREEN}0)${NC} ${RED}Exit${NC}                                     ${WHITE}║${NC}"
     echo -e "${WHITE}╚═══════════════════════════════════════════════╝${NC}"
     echo -e ""
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}${BOLD}=================================================${NC}"
     echo -e "${YELLOW}📝 Select an option [0-3]: ${NC}"
 }
 
