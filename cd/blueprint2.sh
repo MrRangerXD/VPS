@@ -88,7 +88,7 @@ install_zensei() {
         return 1
     fi
 
-    print_status "Starting Fresh Install for Nobita Hosting"
+    print_status "Starting Fresh Install for Zensei Hosting"
 
     # --- Step 1: Install Node.js 20.x ---
     print_header "INSTALLING NODE.JS 20.x"
@@ -112,7 +112,7 @@ install_zensei() {
     animate_progress $! "Installing Node.js"
     check_success "Node.js installed" "Failed to install Node.js"
 
-    # --- Step 2: Install Yarn, Dependencies & Nobita Hosting Release ---
+    # --- Step 2: Install Yarn, Dependencies & Zensei Hosting Release ---
     print_header "INSTALLING DEPENDENCIES"
     print_status "Installing Yarn"
     npm i -g yarn > /dev/null 2>&1 &
@@ -133,19 +133,19 @@ install_zensei() {
     check_success "Additional packages installed" "Failed to install additional packages"
 
     # --- Step 3: Download and Extract Release ---
-    print_header "DOWNLOADING NOBITA HOSTING"
+    print_header "DOWNLOADING ZENSEI HOSTING"
     print_status "Downloading latest release"
-    wget "$(curl -s https://api.github.com/repos/BlueprintFramework/framework/releases/latest | \
-    grep 'browser_download_url' | cut -d '"' -f 4)" -O release.zip > /dev/null 2>&1 &
+    wget https://github.com/BlueprintFramework/framework/releases/download/beta-2025-11/beta-2025-11.zip
+    unzip -o beta-2025-11.zip
     animate_progress $! "Downloading release"
     check_success "Release downloaded" "Failed to download release"
 
     print_status "Extracting release files"
-    unzip -o release.zip > /dev/null 2>&1 &
+    unzip -o beta-2025-11.zip > /dev/null 2>&1 &
     animate_progress $! "Extracting files"
     check_success "Files extracted" "Failed to extract files"
 
-    # --- Step 4: Run Nobita Hosting Installer ---
+    # --- Step 4: Run Zensei Hosting Installer ---
     print_header "RUNNING BLUEPRINT INSTALLER"
     if [ ! -f "blueprint.sh" ]; then
         print_error "blueprint.sh not found in release package"
@@ -169,7 +169,7 @@ reinstall_zensei() {
     check_success "Reinstallation completed" "Reinstallation failed"
 }
 
-# Function: Update Nobita Hosting
+# Function: Update Zensei Hosting
 update_zensei() {
     print_header "UPDATING ZENSEI HOSTING"
     print_status "Starting update"
@@ -183,15 +183,15 @@ show_menu() {
     clear
     echo -e "${BLUE}${BOLD}=================================================${NC}"
     echo -e "${YELLOW}           🔧 BLUEPRINT INSTALLER               ${NC}"
-    echo -e "${YELLOW}              Zensei Hosting                   ${NC}"
+    echo -e "${YELLOW}              Nobita Hosting                   ${NC}"
     echo -e "${BLUE}${BOLD}=================================================${NC}"
     echo -e ""
     echo -e "${WHITE}╔═══════════════════════════════════════════════╗${NC}"
     echo -e "${WHITE}║                📋 MAIN MENU                   ║${NC}"
     echo -e "${WHITE}╠═══════════════════════════════════════════════╣${NC}"
-    echo -e "${WHITE}║   ${GREEN}1)${NC} ${CYAN}Fresh Install${NC}                           ${WHITE}║${NC}"
-    echo -e "${WHITE}║   ${GREEN}2)${NC} ${CYAN}Reinstall (Rerun Only)${NC}                  ${WHITE}║${NC}"
-    echo -e "${WHITE}║   ${GREEN}3)${NC} ${CYAN}Update Zensei Hosting${NC}                   ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}1)${NC} ${CYAN}Fresh Install${NC}                          ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}2)${NC} ${CYAN}Reinstall (Rerun Only)${NC}                 ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}3)${NC} ${CYAN}Update Nobita Hosting${NC}                  ${WHITE}║${NC}"
     echo -e "${WHITE}║   ${GREEN}0)${NC} ${RED}Exit${NC}                                    ${WHITE}║${NC}"
     echo -e "${WHITE}╚═══════════════════════════════════════════════╝${NC}"
     echo -e ""
