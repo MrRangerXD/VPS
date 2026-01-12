@@ -82,27 +82,16 @@ fi
 # =============================
 # Start VM
 # =============================
-echo "[INFO] Starting VM with CPU emulation..."
+echo "[INFO] Starting VM with 32 vCores as AMD Ryzen 9 7900..."
 
-# CPU Options:
-# 1. "host" - Use the host CPU (fastest, but will show Intel on Firebase)
-# 2. "max" or "qemu64" - Generic x86_64 CPU
-# 3. "EPYC" or "athlon" - AMD server/workstation CPUs
-# 4. "kvm64" - Generic KVM CPU
-
-# For AMD Ryzen 9 emulation, try one of these:
-CPU_EMULATION="EPYC-Rome-v3"  # Generic x86_64 with most features
-# CPU_EMULATION="qemu64"  # Basic x86_64
-# CPU_EMULATION="EPYC"  # AMD EPYC server CPU
-# CPU_EMULATION="athlon"  # AMD Athlon
-
-# To see all available CPU models: qemu-system-x86_64 -cpu help
+# Keep host features but force AMD vendor and specific model string
+CPU_EMULATION="host,vendor=AuthenticAMD,+topoext"
 
 exec qemu-system-x86_64 \
     -enable-kvm \
     -m "$MEMORY" \
-    -smp "$CPUS" \
-    -cpu "$CPU_EMULATION" \
+    -smp "$CPUS",cores=16,threads=2,sockets=1 \
+    -cpu "$CPU_EMULATION,model-id=AMD Ryzen 9 7900 12-Core Processor" \
     -drive file="$IMG_FILE",format=qcow2,if=virtio \
     -drive file="$SEED_FILE",format=raw,if=virtio \
     -boot order=c \
