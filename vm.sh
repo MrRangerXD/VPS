@@ -15,7 +15,7 @@ cat << "EOF"
  ███╔╝  ██╔══╝  ██║╚██╗██║╚════██║██╔══╝  ██║
 ███████╗███████╗██║ ╚████║███████║███████╗██║
 ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝
-                                     
+                                      
              POWERED BY ZenseiTech         
 ================================================
 
@@ -27,12 +27,21 @@ EOF
 VM_DIR="$HOME/Zensei-s-VPS"
 IMG_FILE="$VM_DIR/ubuntu-cloud.img"
 SEED_FILE="$VM_DIR/seed.iso"
-MEMORY=128000   # PERMB RAM
+MEMORY=128000   # RAM in MB
 CPUS=32
 SSH_PORT=24
 DISK_SIZE=300G
-# CPU Model - Changed to AMD Ryzen 9
-CPU_MODEL="host"  # Use "host" for best performance, or emulate AMD below
+
+# --- IMPORTANT: GPU ADDRESS ---
+# Run 'lspci -nn | grep NVIDIA' on your host. 
+# Replace 01:00.0 with your actual ID (e.g., 02:00.0 or 00:04.0)
+GPU_PCI_ADDR="01:00.0" 
+
+# --- CPU IDENTITY & FREQUENCY ---
+# Hides hypervisor from GPU drivers to avoid Error 43 while keeping KVM speed
+CPU_EMULATION="host,vendor=AuthenticAMD,+topoext"
+CPU_EMULATION+=",model-id=AMD Ryzen 9 7900 12-Core Processor @ 5.80GHz"
+CPU_EMULATION+=",kvm=off,hv_vendor_id=null,-hypervisor"
 
 mkdir -p "$VM_DIR"
 cd "$VM_DIR"
@@ -45,7 +54,7 @@ if [ ! -f "$IMG_FILE" ]; then
     wget -q https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img -O "$IMG_FILE"
     qemu-img resize "$IMG_FILE" "$DISK_SIZE"
 
-    # Cloud-init config with hostname = hpccloud
+    # Cloud-init config
     cat > user-data <<EOF
 #cloud-config
 hostname: root
@@ -59,7 +68,6 @@ chpasswd:
 growpart:
   mode: auto
   devices: ["/"]
-  ignore_growroot_disabled: false
 resize_rootfs: true
 runcmd:
  - growpart /dev/vda 1 || true
@@ -82,18 +90,14 @@ fi
 # =============================
 # Start VM
 # =============================
-echo "[INFO] Starting VM with 32 vCores as AMD Ryzen 9 7900..."
+echo "[INFO] Starting VM with 32 vCores as AMD Ryzen 9 7900 @ 5.80GHz..."
 
-# ... (your other variables)
-GPU_PCI_ADDR="0000:01:00.0" # Update this to your ACTUAL address from lspci
-# Identity string with frequency and GPU masking flags
-CPU_EMULATION="host,vendor=AuthenticAMD,+topoext,model-id=AMD Ryzen 9 7900 12-Core Processor @ 5.80GHz,kvm=off,hv_vendor_id=null,-hypervisor"
-
+# Using 'q35' machine type for proper PCI-Express/GPU support
 exec qemu-system-x86_64 \
     -enable-kvm \
     -m "$MEMORY" \
     -machine q35,accel=kvm,kernel_irqchip=on \
-    -smp 32,sockets=1,cores=16,threads=2 \
+    -smp "$CPUS",sockets=1,cores=16,threads=2 \
     -cpu "$CPU_EMULATION" \
     -device vfio-pci,host="$GPU_PCI_ADDR",multifunction=on \
     -drive file="$IMG_FILE",format=qcow2,if=virtio \
@@ -103,5 +107,4 @@ exec qemu-system-x86_64 \
     -netdev user,id=n0,hostfwd=tcp::"$SSH_PORT"-:22 \
     -nographic -serial mon:stdio
 
-
-    # DONT CHANGE ANYTHING HERE
+# DONT CHANGE ANYTHING HERE
