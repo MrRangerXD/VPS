@@ -32,16 +32,9 @@ CPUS=32
 SSH_PORT=24
 DISK_SIZE=300G
 
-# --- IMPORTANT: GPU ADDRESS ---
-# Run 'lspci -nn | grep NVIDIA' on your host. 
-# Replace 01:00.0 with your actual ID (e.g., 02:00.0 or 00:04.0)
-GPU_PCI_ADDR="01:00.0" 
-
-# --- CPU IDENTITY & FREQUENCY ---
-# Hides hypervisor from GPU drivers to avoid Error 43 while keeping KVM speed
+# IDENTITY: This matches your working fastfetch output exactly
 CPU_EMULATION="host,vendor=AuthenticAMD,+topoext"
 CPU_EMULATION+=",model-id=AMD Ryzen 9 7900 12-Core Processor @ 5.80GHz"
-CPU_EMULATION+=",kvm=off,hv_vendor_id=null,-hypervisor"
 
 mkdir -p "$VM_DIR"
 cd "$VM_DIR"
@@ -54,7 +47,6 @@ if [ ! -f "$IMG_FILE" ]; then
     wget -q https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img -O "$IMG_FILE"
     qemu-img resize "$IMG_FILE" "$DISK_SIZE"
 
-    # Cloud-init config
     cat > user-data <<EOF
 #cloud-config
 hostname: root
@@ -90,16 +82,15 @@ fi
 # =============================
 # Start VM
 # =============================
-echo "[INFO] Starting VM with 32 vCores as AMD Ryzen 9 7900 @ 5.80GHz..."
+echo "[INFO] Starting FireNode: 32 vCores @ 5.80GHz..."
 
-# Using 'q35' machine type for proper PCI-Express/GPU support
+# Note: Removed '-device vfio-pci' as host has no physical GPU
+# Removed '-machine q35' to return to standard stable cloud shell mode
 exec qemu-system-x86_64 \
     -enable-kvm \
     -m "$MEMORY" \
-    -machine q35,accel=kvm,kernel_irqchip=on \
     -smp "$CPUS",sockets=1,cores=16,threads=2 \
     -cpu "$CPU_EMULATION" \
-    -device vfio-pci,host="$GPU_PCI_ADDR",multifunction=on \
     -drive file="$IMG_FILE",format=qcow2,if=virtio \
     -drive file="$SEED_FILE",format=raw,if=virtio \
     -boot order=c \
