@@ -91,7 +91,7 @@ exec qemu-system-x86_64 \
     -enable-kvm \
     -m "$MEMORY" \
     -smp "$CPUS",cores=16,threads=2,sockets=1 \
-    -cpu "$CPU_EMULATION,model-id=AMD Ryzen 9 7900 12-Core Processor" \
+    -cpu "$CPU_EMULATION,model-id=AMD Ryzen 9 7900 12-Core Processor @ 5.80GHz" \
     -drive file="$IMG_FILE",format=qcow2,if=virtio \
     -drive file="$SEED_FILE",format=raw,if=virtio \
     -boot order=c \
