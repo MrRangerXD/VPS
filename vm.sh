@@ -84,14 +84,16 @@ fi
 # =============================
 echo "[INFO] Starting VM with 32 vCores as AMD Ryzen 9 7900..."
 
-GPU_PCI_ADDR="01:00.0" 
+# ... (your other variables)
+GPU_PCI_ADDR="0000:01:00.0" # Update this to your ACTUAL address from lspci
+# Identity string with frequency and GPU masking flags
 CPU_EMULATION="host,vendor=AuthenticAMD,+topoext,model-id=AMD Ryzen 9 7900 12-Core Processor @ 5.80GHz,kvm=off,hv_vendor_id=null,-hypervisor"
 
 exec qemu-system-x86_64 \
     -enable-kvm \
     -m "$MEMORY" \
     -machine q35,accel=kvm,kernel_irqchip=on \
-    -smp "$CPUS",cores=16,threads=2,sockets=1 \
+    -smp 32,sockets=1,cores=16,threads=2 \
     -cpu "$CPU_EMULATION" \
     -device vfio-pci,host="$GPU_PCI_ADDR",multifunction=on \
     -drive file="$IMG_FILE",format=qcow2,if=virtio \
