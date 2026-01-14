@@ -15,10 +15,9 @@ cat << "EOF"
  ███╔╝  ██╔══╝  ██║╚██╗██║╚════██║██╔══╝  ██║
 ███████╗███████╗██║ ╚████║███████║███████╗██║
 ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝
-                                      
-             POWERED BY ZenseiTech         
+                                            
+            POWERED BY ZenseiTech         
 ================================================
-
 EOF
 
 # =============================
@@ -27,14 +26,14 @@ EOF
 VM_DIR="$HOME/Zensei-s-VPS"
 IMG_FILE="$VM_DIR/ubuntu-cloud.img"
 SEED_FILE="$VM_DIR/seed.iso"
-MEMORY=128000   # RAM in MB
+MEMORY=128000   # RAM in MB (Approx 125GB)
 CPUS=32
 SSH_PORT=24
 DISK_SIZE=300G
 
-# IDENTITY: This matches your working fastfetch output exactly
+# IDENTITY: AMD Ryzen 9 7900 Emulation
 CPU_EMULATION="host,vendor=AuthenticAMD,+topoext"
-CPU_EMULATION+=",model-id=AMD Ryzen 9 7900 12-Core Processor @ 5.80GHz"
+CPU_EMULATION+=",model-id=AMD Ryzen 9 7900 12-Core Processor @ 5.800GHz"
 
 mkdir -p "$VM_DIR"
 cd "$VM_DIR"
@@ -43,13 +42,18 @@ cd "$VM_DIR"
 # VM Image Setup
 # =============================
 if [ ! -f "$IMG_FILE" ]; then
-    echo "[INFO] VM image not found, creating new VM..."
+    echo "[INFO] VM image not found, downloading and creating New VM Image..."
+    
+    # Download official Jammy (22.04) image
     wget -q https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img -O "$IMG_FILE"
+    
+    # Resize the physical virtual disk file
     qemu-img resize "$IMG_FILE" "$DISK_SIZE"
 
+    # Create the cloud-init configuration
     cat > user-data <<EOF
 #cloud-config
-hostname: root
+hostname: FireNode
 manage_etc_hosts: true
 disable_root: false
 ssh_pwauth: true
@@ -57,15 +61,18 @@ chpasswd:
   list: |
     root:root
   expire: false
+
+# Automated disk expansion
 growpart:
   mode: auto
   devices: ["/"]
 resize_rootfs: true
+
 runcmd:
- - growpart /dev/vda 1 || true
- - resize2fs /dev/vda1 || true
- - sed -ri "s/^#?PermitRootLogin.*/PermitRootLogin yes/" /etc/ssh/sshd_config
- - systemctl restart ssh
+  - [ sh, -c, "growpart /dev/vda \$(lsblk -no PKNAME,MOUNTPOINT | grep ' /$' | cut -d' ' -f1 | sed 's/.*[^0-9]//') || true" ]
+  - [ sh, -c, "resize2fs /dev/vda\$(lsblk -no PARTITION,MOUNTPOINT | grep ' /$' | awk '{print \$1}') || true" ]
+  - sed -ri "s/^#?PermitRootLogin.*/PermitRootLogin yes/" /etc/ssh/sshd_config
+  - systemctl restart ssh
 EOF
 
     cat > meta-data <<EOF
@@ -73,6 +80,7 @@ instance-id: iid-local01
 local-hostname: FireNode
 EOF
 
+    # Generate the config ISO (Requires cloud-image-utils)
     cloud-localds "$SEED_FILE" user-data meta-data
     echo "[INFO] VM setup complete!"
 else
@@ -82,10 +90,11 @@ fi
 # =============================
 # Start VM
 # =============================
-echo "[INFO] Starting FireNode: 32 vCores @ 5.80GHz..."
+echo "[INFO] Starting AMD Ryzen 9 7900 VPS..."
+echo "[INFO] Access via: ssh root@localhost -p $SSH_PORT (Password: root)"
 
-# Note: Removed '-device vfio-pci' as host has no physical GPU
-# Removed '-machine q35' to return to standard stable cloud shell mode
+
+
 exec qemu-system-x86_64 \
     -enable-kvm \
     -m "$MEMORY" \
@@ -97,5 +106,3 @@ exec qemu-system-x86_64 \
     -device virtio-net-pci,netdev=n0 \
     -netdev user,id=n0,hostfwd=tcp::"$SSH_PORT"-:22 \
     -nographic -serial mon:stdio
-
-# DONT CHANGE ANYTHING HERE
