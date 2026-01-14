@@ -53,7 +53,7 @@ if [ ! -f "$IMG_FILE" ]; then
     # Create the cloud-init configuration
     cat > user-data <<EOF
 #cloud-config
-hostname: FireNode
+hostname: PheonixHost
 manage_etc_hosts: true
 disable_root: false
 ssh_pwauth: true
@@ -77,7 +77,7 @@ EOF
 
     cat > meta-data <<EOF
 instance-id: iid-local01
-local-hostname: FireNode
+local-hostname: PheonixHost
 EOF
 
     # Generate the config ISO (Requires cloud-image-utils)
