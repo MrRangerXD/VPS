@@ -13,7 +13,7 @@ NC='\033[0m' # No Color
 # Function to print section headers
 print_header() {
     echo -e "\n${BLUE}${BOLD}=================================================${NC}"
-    echo -e "${YELLOW} $1 ${NC}"
+    echo -e "${CYAN} $1 ${NC}"
     echo -e "${BLUE}${BOLD}=================================================${NC}\n"
 }
 
@@ -67,97 +67,75 @@ welcome_animation() {
     clear
     echo -e "${BLUE}${BOLD}=================================================${NC}"
     echo -e "${YELLOW}"
-echo "  ██████╗ ███████╗███╗   ██╗███████╗███████╗██╗ "
-echo "  ╚══███╔╝██╔════╝████╗  ██║██╔════╝██╔════╝██║ "
-echo "    ███╔╝ █████╗  ██╔██╗ ██║███████╗█████╗  ██║ "
-echo "   ███╔╝  ██╔══╝  ██║╚██╗██║╚════██║██╔══╝  ██║ "
-echo "  ███████╗███████╗██║ ╚████║███████║███████╗██║ "
-echo "  ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝ "  
+    echo -e " ███████╗███████╗███╗   ██╗███████╗███████╗██╗ "
+    echo -e " ╚══███╔╝██╔════╝████╗  ██║██╔════╝██╔════╝██║ "
+    echo -e "   ███╔╝ █████╗  ██╔██╗ ██║███████╗█████╗  ██║ " 
+    echo -e "  ███╔╝  ██╔══╝  ██║╚██╗██║╚════██║██╔══╝  ██║ "
+    echo -e " ███████╗███████╗██║ ╚████║███████║███████╗██║ "
+    echo -e " ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝ "
     echo -e "${NC}"
-    echo -e "${CYAN}              Blueprint Installer${NC}"
+    echo -e "${YELLOW}              Blueprint Installer${NC}"
     echo -e "${BLUE}${BOLD}=================================================${NC}"
     sleep 2
 }
 
 # Function: Install (Fresh Setup)
 install_zensei() {
-    print_header "FRESH INSTALLATION"
-    
-    if [ "$EUID" -ne 0 ]; then
-        print_error "Please run this script as root or with sudo"
-        return 1
-    fi
+# ================= VARIABLES =================
+export PTERODACTYL_DIRECTORY=/var/www/pterodactyl
 
-    print_status "Starting Fresh Install for Zensei Hosting"
+# ================= START =================
+header
+step "Installing base dependencies (curl, wget, unzip)"
+apt update -y && apt install -y curl wget unzip ca-certificates git gnupg zip || fail "Deps install failed"
+ok "Base dependencies installed"
 
-    # --- Step 1: Install Node.js 20.x ---
-    print_header "INSTALLING NODE.JS 20.x"
-    print_status "Installing required packages"
-    sudo apt-get install -y ca-certificates curl gnupg > /dev/null 2>&1 &
-    animate_progress $! "Installing dependencies"
-    
-    print_status "Setting up Node.js repository"
-    sudo mkdir -p /etc/apt/keyrings
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | \
-      sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg > /dev/null 2>&1
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | \
-      sudo tee /etc/apt/sources.list.d/nodesource.list > /dev/null 2>&1
-      
-    print_status "Updating package lists"
-    sudo apt-get update > /dev/null 2>&1 &
-    animate_progress $! "Updating package lists"
-    
-    print_status "Installing Node.js"
-    sudo apt-get install -y nodejs > /dev/null 2>&1 &
-    animate_progress $! "Installing Node.js"
-    check_success "Node.js installed" "Failed to install Node.js"
+step "Switching to Pterodactyl directory"
+cd "$PTERODACTYL_DIRECTORY" || fail "Pterodactyl directory not found"
 
-    # --- Step 2: Install Yarn, Dependencies & Zensei Hosting Release ---
-    print_header "INSTALLING DEPENDENCIES"
-    print_status "Installing Yarn"
-    npm i -g yarn > /dev/null 2>&1 &
-    animate_progress $! "Installing Yarn"
-    check_success "Yarn installed" "Failed to install Yarn"
+step "Downloading Blueprint Framework (latest)"
+wget "$(curl -s https://api.github.com/repos/BlueprintFramework/framework/releases/latest | grep 'browser_download_url' | grep 'release.zip' | cut -d '"' -f 4)" -O "$PTERODACTYL_DIRECTORY/release.zip"
+unzip -o release.zip || fail "Unzip failed"
+ok "Blueprint downloaded & extracted"
 
-    print_status "Changing to panel directory"
-    cd /var/www/pterodactyl || { print_error "Panel directory not found!"; return 1; }
-    
-    print_status "Installing Yarn dependencies"
-    yarn > /dev/null 2>&1 &
-    animate_progress $! "Installing Yarn dependencies"
-    check_success "Yarn dependencies installed" "Failed to install Yarn dependencies"
+# ================= NODE.JS =================
+step "Installing Node.js 20.x"
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" \
+> /etc/apt/sources.list.d/nodesource.list
 
-    print_status "Installing additional packages"
-    sudo apt install -y zip unzip git curl wget > /dev/null 2>&1 &
-    animate_progress $! "Installing additional packages"
-    check_success "Additional packages installed" "Failed to install additional packages"
+apt update -y && apt install -y nodejs || fail "Node.js install failed"
+ok "Node.js installed"
 
-    # --- Step 3: Download and Extract Release ---
-    print_header "DOWNLOADING ZENSEI HOSTING"
-    print_status "Downloading latest release"
-    wget https://github.com/BlueprintFramework/framework/releases/download/beta-2025-11/beta-2025-11.zip
-    unzip -o beta-2025-11.zip
-    animate_progress $! "Downloading release"
-    check_success "Release downloaded" "Failed to download release"
+# ================= YARN & DEPENDENCIES =================
+step "Installing Yarn & Node dependencies"
+npm i -g yarn || fail "Yarn install failed"
+yarn install || fail "Yarn dependencies failed"
+ok "Node dependencies ready"
 
-    print_status "Extracting release files"
-    unzip -o beta-2025-11.zip > /dev/null 2>&1 &
-    animate_progress $! "Extracting files"
-    check_success "Files extracted" "Failed to extract files"
+# ================= BLUEPRINT CONFIG =================
+step "Creating .blueprintrc configuration"
+cat <<EOF > "$PTERODACTYL_DIRECTORY/.blueprintrc"
+WEBUSER="www-data";
+OWNERSHIP="www-data:www-data";
+USERSHELL="/bin/bash";
+EOF
+ok ".blueprintrc created"
 
-    # --- Step 4: Run Zensei Hosting Installer ---
-    print_header "RUNNING BLUEPRINT INSTALLER"
-    if [ ! -f "blueprint.sh" ]; then
-        print_error "blueprint.sh not found in release package"
-        return 1
-    fi
+# ================= PERMISSIONS =================
+step "Setting permissions"
+chmod +x "$PTERODACTYL_DIRECTORY/blueprint.sh" || fail "Permission failed"
+chown -R www-data:www-data "$PTERODACTYL_DIRECTORY"
+ok "Permissions fixed"
 
-    print_status "Making blueprint.sh executable"
-    chmod +x blueprint.sh
-    check_success "Made executable" "Failed to make executable"
+# ================= RUN BLUEPRINT =================
+step "Launching Blueprint installer"
+bash "$PTERODACTYL_DIRECTORY/blueprint.sh"
 
-    print_status "Running Blueprint installer"
-    bash blueprint.sh
+# ================= DONE =================
+echo -e "\n${G}🎉 Blueprint UI Installation Complete!${N}"
+echo -e "${Y}Panel breathe kar raha hai… theme lagao, flex maro 😏${N}"
 }
 
 # Function: Reinstall (Rerun Only)
@@ -181,21 +159,21 @@ update_zensei() {
 # Function to display the main menu
 show_menu() {
     clear
-    echo -e "${BLUE}${BOLD}=================================================${NC}"
-    echo -e "${YELLOW}           🔧 BLUEPRINT INSTALLER               ${NC}"
-    echo -e "${YELLOW}              Zensei Hosting                   ${NC}"
-    echo -e "${BLUE}${BOLD}=================================================${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${CYAN}           🔧 BLUEPRINT INSTALLER               ${NC}"
+    echo -e "${CYAN}              Zensei Hosting                   ${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e ""
     echo -e "${WHITE}╔═══════════════════════════════════════════════╗${NC}"
     echo -e "${WHITE}║                📋 MAIN MENU                   ║${NC}"
     echo -e "${WHITE}╠═══════════════════════════════════════════════╣${NC}"
-    echo -e "${WHITE}║   ${GREEN}1)${NC} ${CYAN}Fresh Install${NC}                          ${WHITE}║${NC}"
-    echo -e "${WHITE}║   ${GREEN}2)${NC} ${CYAN}Reinstall (Rerun Only)${NC}                 ${WHITE}║${NC}"
-    echo -e "${WHITE}║   ${GREEN}3)${NC} ${CYAN}Update Zensei-Hosting${NC}                  ${WHITE}║${NC}"
-    echo -e "${WHITE}║   ${GREEN}0)${NC} ${RED}Exit${NC}                                    ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}1)${NC} ${CYAN}Fresh Install${NC}                         ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}2)${NC} ${CYAN}Reinstall ${NC}                ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}3)${NC} ${CYAN}Update Zensei Hosting${NC}                 ${WHITE}║${NC}"
+    echo -e "${WHITE}║   ${GREEN}0)${NC} ${RED}Exit${NC}                               ${WHITE}║${NC}"
     echo -e "${WHITE}╚═══════════════════════════════════════════════╝${NC}"
     echo -e ""
-    echo -e "${BLUE}${BOLD}=================================================${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${YELLOW}📝 Select an option [0-3]: ${NC}"
 }
 
